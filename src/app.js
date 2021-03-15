@@ -4,9 +4,14 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/helloworld', (req,res)=>{
-res.status(200).send({result: 'hellomotherfucker'})
+const { Artist } = require('../src/models');
+
+
+app.post('/artists', (req, res) => {
+    res.status(201).send({result:'artist'})
 });
 
 
-module.exports = app;
+
+
+module.exports = app, Artist;
