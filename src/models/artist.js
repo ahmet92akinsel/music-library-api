@@ -8,3 +8,8 @@ module.exports = (connection, DataTypes) => {
     const ArtistModel = connection.define('Artist', schema);
     return ArtistModel;
   };
+
+  /* .catch(error => {
+  console.log(error);
+  res.status(400).send();
+)} */.
