@@ -1,17 +1,14 @@
 const express = require('express');
-
 const app = express();
-
 app.use(express.json());
 
-const { Artist } = require('../src/models');
+const artistControllers = require('./controllers/artists');
+
+/*app.post('/artists', (req, res) => {
+    res.send(201)
+})
+
+*/
 
 
-app.post('/artists', (req, res) => {
-    res.status(201).send({result:'artist'})
-});
-
-
-
-
-module.exports = app, Artist;
+module.exports = app;

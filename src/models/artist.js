@@ -1,4 +1,5 @@
 /* src/models/artist.js */
+
 module.exports = (connection, DataTypes) => {
     const schema = {
       name: DataTypes.STRING,
@@ -12,4 +13,4 @@ module.exports = (connection, DataTypes) => {
   /* .catch(error => {
   console.log(error);
   res.status(400).send();
-)} */.
+)} */

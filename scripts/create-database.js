@@ -9,7 +9,7 @@ const envFile = args === 'test' ? '../.env.test' : '../.env';
 require('dotenv').config({
   path: path.join(__dirname, envFile),
 });
-console.log("ahmet")
+
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
 
 const connection = mysql.createConnection({
