@@ -90,24 +90,16 @@ describe('with artists in the database', () => {
 });
 
 
-/*try {
-  const response = await Artist.findByPk(response.body.id, { raw: true })
-  expect(response.name).to.equal('Tame Impala');
-  expect(response.genre).to.equal('Rock');
-} catch (error) {
-  throw error;
-
-
-   describe('GET /artists', () => {
-    it('gets all artist records', async () => {
-      try {
-        const response = await request(app).get('/artists').send();
-        expect(response.body).to.have.lengthOf(3);
-        expect(res.status).to.equal(200);
-        expect(res.body.length).to.equal(3);
-      } catch (error) {
-        throw error;
-      }
-    });
-  });
-}*/
+describe('GET/artists/:artistId', () => {
+  it('gets artist record by id', async () => {
+    const artist = artists[0];
+    try {
+      const res =  await request(app).get(`/artists/${artist.id}`).send()
+      expect(res.status).to.equal(200);
+      expect(res.body.name).to.equal(artist.name);
+      expect(res.body.genre).to.equal(artist.genre);
+    } catch (error) {
+      throw error;
+    }
+ })
+});
