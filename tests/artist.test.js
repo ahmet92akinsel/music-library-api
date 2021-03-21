@@ -12,16 +12,24 @@ describe("/artists", () => {
     }
   });
 
-  beforeEach( async () => {
-       try {
-        await request(app).post('/artists').send({
-        name: 'Tame Impala',
-        genre: 'Rock',
-        }) 
-      } catch (error) {
+  beforeEach(async () => {
+    try {
+      await request(app).post("/artists").send({
+        name: "Tame Impala",
+        genre: "Rock",
+      });
+      await request(app).post("/artists").send({
+        name: "The Weekend",
+        genre: "Pop",
+      });
+      await request(app).post("/artists").send({
+        name: "Chick Corea Electric Band",
+        genre: "Fusion",
+      });
+    } catch (error) {
       throw error;
     }
-  });    
+  });
 
   afterEach(async () => {
     try {
@@ -31,49 +39,46 @@ describe("/artists", () => {
     }
   });
 
-  
   describe("POST /artists", () => {
     it("creates a new artist in the database", async () => {
       try {
-       const response = await request(app).post("/artists").send({
-          name : "Tame Impala",
-          genre: "Rock"
+        const response = await request(app).post("/artists").send({
+          name: "Tame Impala",
+          genre: "Rock",
         });
-        await request(app).post('/artists').send({
-          name: 'Kylie Minogue',
-          genre: 'Pop',
-        })
-        await request(app).post('/artists').send({
-          name: 'Chick Corea Electric Band',
-          genre: 'Fusion',
-        })
+        await request(app).post("/artists").send({
+          name: "The Weekend",
+          genre: "Pop",
+        });
+        await request(app).post("/artists").send({
+          name: "Chick Corea Electric Band",
+          genre: "Fusion",
+        });
         expect(response.status).to.equal(201);
       } catch (error) {
         throw error;
-      }      
+      }
     });
   });
 });
 
-
-
-
-describe('with artists in the database', () => {
+describe("with artists in the database", () => {
   let artists;
   beforeEach((done) => {
     Promise.all([
-      Artist.create({ name: 'Tame Impala', genre: 'Rock' }),
-      Artist.create({ name: 'The Weekend', genre: 'Pop' }),
-      Artist.create({ name: 'Chick Corea Electric Band', genre: 'Fusion' }),
+      Artist.create({ name: "Tame Impala", genre: "Rock" }),
+      Artist.create({ name: "The Weekend", genre: "Pop" }),
+      Artist.create({ name: "Chick Corea Electric Band", genre: "Fusion" }),
     ]).then((documents) => {
       artists = documents;
       done();
     });
   });
-  describe('GET /artists', () => {
-    it('gets all artist records', (done) => {
+
+  describe("GET /artists", () => {
+    it("gets all artist records", (done) => {
       request(app)
-        .get('/artists')
+        .get("/artists")
         .then((res) => {
           expect(res.status).to.equal(200);
           expect(res.body.length).to.equal(3);
@@ -84,22 +89,79 @@ describe('with artists in the database', () => {
           });
           done();
         })
-        .catch(error => done(error));
+        .catch((error) => done(error));
+    });
+    it("gets artist record by id", async () => {
+      try {
+        const artist = artists[0];
+        const result = await request(app).get(`/artists/${artist.id}`).send();
+        expect(result.status).to.equal(200);
+        expect(result.body.name).to.equal(artist.name);
+        expect(result.body.genre).to.equal(artist.genre);
+      } catch (error) {
+        throw error;
+      }
     });
   });
 });
 
+/*describe('PATCH /artists/:id', () => {
 
-describe('GET/artists/:artistId', () => {
-  it('gets artist record by id', async () => {
-    const artist = artists[0];
+  let artists;
+  beforeEach((done) => {
+    Promise.all([
+      Artist.create({ name: 'Tame Impala', genre: 'Rock' }),
+      Artist.create({ name: 'The Weekend', genre: 'Pop' }),
+      Artist.create({ name: 'Chick Corea Electric Band', genre: 'Fusion' }),
+    ])
+      .then((documents) => {
+        artists = documents;
+        done();
+      })
+      .catch((error) => done(error));
+  });
+
+
+  it('updates artist genre by id', async () => {
     try {
-      const res =  await request(app).get(`/artists/${artist.id}`).send()
+      const artist = artists[0];
+      const updateGenre = await request(app).patch(`/artists/${artist.id}`).send({ genre: 'Psychedelic Rock' });
       expect(res.status).to.equal(200);
-      expect(res.body.name).to.equal(artist.name);
-      expect(res.body.genre).to.equal(artist.genre);
+      expect(updateGenre.genre).to.equal('Psychedelic Rock');
+
+      const updatedArtist = await Artist.findByPk(artist.id, { raw: true })
+      expect(updatedArtist.genre).to.equal("Psychedelic Rock");
+    } catch(error) {
+     throw error;
+    } 
+  
+  }); 
+
+  it('updates artist name', async () => {
+    try {
+      const artist = artists[0];
+      const updateName = await request(app).patch(`/artists/`)
     } catch (error) {
       throw error;
-    }
- })
-});
+    } 
+  })
+});   
+
+describe("PATCH /artists/:id", () => {
+  it("updates artist genre by id", (done) => {
+    const artist = artists[0];
+    request(app)
+      .patch(`/artists/${artist.id}`)
+      .send({ genre: "Psychedelic Rock" })
+      .then((res) => {
+        expect(res.status).to.equal(200);
+        Artist.findByPk(artist.id, { raw: true })
+          .then((updatedArtist) => {
+            expect(updatedArtist.genre).to.equal("Psychedelic Rock");
+            done();
+          })
+          .catch((error) => done(error));
+      })
+      .catch((error) => done(error));
+  });
+}); */
