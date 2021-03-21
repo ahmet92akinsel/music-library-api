@@ -10,7 +10,4 @@ module.exports = (connection, DataTypes) => {
     return ArtistModel;
   };
 
-  /* .catch(error => {
-  console.log(error);
-  res.status(400).send();
-)} */
+ 
