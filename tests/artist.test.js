@@ -103,51 +103,22 @@ describe("with artists in the database", () => {
       }
     });
   });
+  
 });
 
-/*describe('PATCH /artists/:id', () => {
 
+describe("PATCH /artists/:id", () => {
   let artists;
   beforeEach((done) => {
     Promise.all([
-      Artist.create({ name: 'Tame Impala', genre: 'Rock' }),
-      Artist.create({ name: 'The Weekend', genre: 'Pop' }),
-      Artist.create({ name: 'Chick Corea Electric Band', genre: 'Fusion' }),
-    ])
-      .then((documents) => {
-        artists = documents;
-        done();
-      })
-      .catch((error) => done(error));
+      Artist.create({ name: "Tame Impala", genre: "Rock" }),
+      Artist.create({ name: "The Weekend", genre: "Pop" }),
+      Artist.create({ name: "Chick Corea Electric Band", genre: "Fusion" }),
+    ]).then((documents) => {
+      artists = documents;
+      done();
+    });
   });
-
-
-  it('updates artist genre by id', async () => {
-    try {
-      const artist = artists[0];
-      const updateGenre = await request(app).patch(`/artists/${artist.id}`).send({ genre: 'Psychedelic Rock' });
-      expect(res.status).to.equal(200);
-      expect(updateGenre.genre).to.equal('Psychedelic Rock');
-
-      const updatedArtist = await Artist.findByPk(artist.id, { raw: true })
-      expect(updatedArtist.genre).to.equal("Psychedelic Rock");
-    } catch(error) {
-     throw error;
-    } 
-  
-  }); 
-
-  it('updates artist name', async () => {
-    try {
-      const artist = artists[0];
-      const updateName = await request(app).patch(`/artists/`)
-    } catch (error) {
-      throw error;
-    } 
-  })
-});   
-
-describe("PATCH /artists/:id", () => {
   it("updates artist genre by id", (done) => {
     const artist = artists[0];
     request(app)
@@ -164,4 +135,4 @@ describe("PATCH /artists/:id", () => {
       })
       .catch((error) => done(error));
   });
-}); */
+}); 
