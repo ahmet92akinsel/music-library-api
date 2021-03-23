@@ -151,3 +151,30 @@ describe("PATCH /artists/:id", () => {
       .catch((error) => done(error));
   });
 });
+
+describe('DELETE /artists/:artistId', () => {
+  let artists;
+  beforeEach((done) => {
+    Promise.all([
+      Artist.create({ name: "Tame Impala", genre: "Rock" }),
+      Artist.create({ name: "The Weekend", genre: "Pop" }),
+      Artist.create({ name: "Chick Corea Electric Band", genre: "Fusion" }),
+    ]).then((documents) => {
+      artists = documents;
+      done();
+    });
+  });
+  xit('deletes artist record by id', (done) => {
+    const artist = artists[0];
+    request(app)
+      .delete(`/artists/${artist.id}`)
+      .then((res) => {
+        expect(res.status).to.equal(204);
+        Artist.findByPk(artist.id, { raw: true }).then((updatedArtist) => {
+          expect(updatedArtist).to.equal(null);
+          done();
+        }).catch(error => done(error));
+      }).catch(error => done(error));
+  });
+
+});
