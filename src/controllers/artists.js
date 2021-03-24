@@ -1,4 +1,3 @@
-const { where } = require("sequelize/types");
 const { Artist } = require("../models");
 const artist = require("../models/artist.js");
 
@@ -53,15 +52,15 @@ exports.updateArtistName = (req, res) => {
   });
 };
 
-/*exports.deleteRecord = (req, res) => {
-  const { artistId } = req.params.artistId;
-  console.log("aaaaaaaaaaaaaa")
-  Artist.destroy(req.params, { where : { id : artistId } }).then(([deletedArtist]) => {
+exports.deleteRecord = (req, res) => {
+  const { artistId } = req.params.id;
+  //console.log("aaaaaaaaaaaaaa")
+  Artist.destroy({ where : { artistId : id } }).then(([deletedArtist]) => {
+    //console.log("aaaaaaaaaaaaaa")
     if(!deletedArtist) {
       res.status(404).json({ error: "The artist could not be found." });
     } else {
       res.status(204).jason(deletedArtist);
     }
   });
-
-}; */
+}; 

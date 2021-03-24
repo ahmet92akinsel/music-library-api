@@ -164,7 +164,7 @@ describe('DELETE /artists/:artistId', () => {
       done();
     });
   });
-  xit('deletes artist record by id', (done) => {
+  it('deletes artist record by id', (done) => {
     const artist = artists[0];
     request(app)
       .delete(`/artists/${artist.id}`)

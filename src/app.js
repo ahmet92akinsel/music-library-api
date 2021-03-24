@@ -9,8 +9,8 @@ app.post('/artists', artists.create);
 app.get('/artists', artists.list);
 app.get('/artists/:id', artists.getArtistById);
 app.patch('/artists/:id', artists.updateArtist);
-app.patch('/artists/:name', artists.updateArtistName)
-//app.delete('/artists/:id', artists.deleteRecord);
+app.patch('/artists/:name', artists.updateArtistName);
+app.delete('/artists/:id', artists.deleteRecord);
 
 
 
