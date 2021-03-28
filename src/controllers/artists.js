@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  Artist.findAll({})
+  Artist.findAll()
     .then((list) => res.status(200).json(list))
     .catch((error) => {
       console.log(error);
