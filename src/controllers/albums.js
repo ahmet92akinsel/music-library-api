@@ -1,52 +1,23 @@
-const Sequelize = require('sequelize');
-const { Albums } = require('../models');
-const albums = require('../models/albums.js')
-const { Artist } = require('../models');
-const artist = require("../models/artist.js");
-
+const Sequelize = require("sequelize");
+const { Album, Artist} = require("../models");
 
 exports.create = (req, res) => {
+  const artistId = req.params.artistId;
+  Artist.findByPk(artistId).then((artist) => {
+    if (!artist) {
+      res.status(404).json({ error: "The artist could not be found." });
+      console.log(artist, "ERROR");
+    } else {
+      Album.create(req.body).then((album) => {
+        console.log("artist")
 
-    const artistId = req.body.id
-    Artist.findByPk(artistId).then((artist) => {
-        if (!artist) {
-          res.status(404).json({ error: "The artist does not exist." });
-          console.log(artist,"ERROR")
-        } else {
-          const Albums = new Albums({
-            artist, 
-            name: req.body.name,
-            year: req.body.year,
-          });
-        }
+        album.setArtist(artist).then(result => {
+          res
+          .status(201)
+          .send(album);
+        })
+  
       });
-    };
-
-
-/*
-
-
-
-    
-    Artist.findById(req.body.id, (err, artist) => {
-        if(err) {
-            res.send('Artist does not exist');
-        }
-        const myAlbum = new Albums({
-            artist, 
-            name: req.body.name,
-            year: req.body.year,
-        });
-    });
+    }
+  });
 };
-
-
-exports.create = (req, res) => {
-    Artist.create(req.body)
-      .then((artist) => res.status(201).json(artist)) //Artist tablosunda yeni bir record yarat ve record'un içeriği = req.body
-      .catch((error) => {
-        console.log(error);
-        res.status(400).send();
-      });
-  };
-*/

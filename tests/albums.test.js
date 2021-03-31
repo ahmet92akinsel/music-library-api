@@ -24,18 +24,6 @@ describe('/albums', () => {
         name: 'Tame Impala',
         genre: 'Rock',
       });
-      await Artist.destroy({ where: {} });
-      await Album.destroy({ where: {} });
-      artist = await Artist.create({
-        name: 'The Weekend',
-        genre: 'Pop',
-      });
-      await Artist.destroy({ where: {} });
-      await Album.destroy({ where: {} });
-      artist = await Artist.create({
-        name: 'Chick Corea Electric Band',
-        genre: 'Fusion',
-      });
     } catch (err) {
       console.log(err);
     }
@@ -50,18 +38,21 @@ describe('/albums', () => {
           year: 2010,
         })
         .then((res) => {
-          expect(res.status).to.equal(201);
+          expect(res.status).to.equal(201)
+          console.log(res.body,"res.body")
 
           Album.findByPk(res.body.id, { raw: true }).then((album) => {
+            console.log(album, "album")
+
             expect(album.name).to.equal('InnerSpeaker');
-            expect(album.year).to.equal(2010);
+            expect(album.year).to.equal("2010");
             expect(album.artistId).to.equal(artist.id);
             done();
           }).catch(error => done(error));
         }).catch(error => done(error));
-    })
+    });
 
-    /*it('returns a 404 and does not create an album if the artist does not exist', (done) => {
+    it('returns a 404 and does not create an album if the artist does not exist', (done) => {
       request(app)
         .post('/artists/1234/albums')
         .send({
@@ -69,8 +60,10 @@ describe('/albums', () => {
           year: 2010,
         })
         .then((res) => {
+          //console.log(res.body, "res.body")
           expect(res.status).to.equal(404);
           expect(res.body.error).to.equal('The artist could not be found.');
+          //console.log(res.body, "res.body")
 
           Album.findAll().then((albums) => {
             expect(albums.length).to.equal(0);
@@ -78,6 +71,5 @@ describe('/albums', () => {
           });
         });
     });
-  });*/
-})
+  });
 });
