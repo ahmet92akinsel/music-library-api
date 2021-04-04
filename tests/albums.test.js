@@ -75,22 +75,4 @@ describe("/albums", () => {
         });
     });
   });
-/*
-describe("GET artists/:artistId/albums", () => {
-   it("gets all albums", (done) => {
-     request(app)
-       .get(`/artists/${artist.id}/albums`)
-       .then((res) => {
-         expect(res.status).to.equal(200);
-         expect(res.body.length).to.equal(3);
-         res.body.forEach((artist) => {
-           const expected = artists.find((a) => a.id === artist.id);
-           expect(artist.name).to.equal(expected.name);
-           expect(artist.genre).to.equal(expected.genre);
-         });
-         done();
-       })
-       .catch((error) => done(error));
-   });
- });*/
 });
